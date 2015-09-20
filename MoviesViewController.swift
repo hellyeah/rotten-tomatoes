@@ -78,21 +78,32 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         cell.descriptionLabel.text = movie["synopsis"] as? String
         
         let url = NSURL(string: movie.valueForKeyPath("posters.thumbnail") as! String)!
+
         cell.posterView.setImageWithURL(url)
 
         return cell
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
-    */
+
+
+    //MARK: - Navigation
+
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        let cell = sender as! UITableViewCell
+        let indexPath = tableView.indexPathForCell(cell)!
+
+        let movie = movies![indexPath.row]
+
+        let movieDetailsViewController = segue.destinationViewController as! MovieDetailsViewController
+        movieDetailsViewController.movie = movie
+
+
+        print("about to segue")
+    }
+
     
     
 
