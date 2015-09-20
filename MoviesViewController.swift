@@ -23,11 +23,12 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func fetchData(urlString: String) -> Void {
+        JTProgressHUD.show()
         let session = NSURLSession.sharedSession()
         let url = NSURL(string: urlString)
         let task = session.dataTaskWithURL(url!) {
             (data, response, error) -> Void in
-            
+            JTProgressHUD.hide()
             if error != nil {
                 print(error!.localizedDescription)
             }
