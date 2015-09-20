@@ -14,6 +14,7 @@
 		9FAB1E831BAD57D700EB0530 /* RottenTomatoesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAB1E821BAD57D700EB0530 /* RottenTomatoesTests.swift */; };
 		9FAB1E8E1BAD57D700EB0530 /* RottenTomatoesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAB1E8D1BAD57D700EB0530 /* RottenTomatoesUITests.swift */; };
 		9FAB1E9C1BADEE6D00EB0530 /* MoviesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAB1E9B1BADEE6D00EB0530 /* MoviesViewController.swift */; };
+		9FAB1EA01BAE95CB00EB0530 /* MovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FAB1E9F1BAE95CB00EB0530 /* MovieCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		9FAB1E8D1BAD57D700EB0530 /* RottenTomatoesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RottenTomatoesUITests.swift; sourceTree = "<group>"; };
 		9FAB1E8F1BAD57D700EB0530 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9FAB1E9B1BADEE6D00EB0530 /* MoviesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MoviesViewController.swift; path = ../MoviesViewController.swift; sourceTree = "<group>"; };
+		9FAB1E9F1BAE95CB00EB0530 /* MovieCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +99,7 @@
 		9FAB1E6C1BAD57D700EB0530 /* RottenTomatoes */ = {
 			isa = PBXGroup;
 			children = (
+				9FAB1E9E1BAE958100EB0530 /* Views */,
 				9FAB1E9D1BADEE8100EB0530 /* View Controllers */,
 				9FAB1E6D1BAD57D700EB0530 /* AppDelegate.swift */,
 				9FAB1E711BAD57D700EB0530 /* Main.storyboard */,
@@ -131,6 +134,14 @@
 				9FAB1E9B1BADEE6D00EB0530 /* MoviesViewController.swift */,
 			);
 			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		9FAB1E9E1BAE958100EB0530 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				9FAB1E9F1BAE95CB00EB0530 /* MovieCell.swift */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -265,6 +276,7 @@
 			files = (
 				9FAB1E6E1BAD57D700EB0530 /* AppDelegate.swift in Sources */,
 				9FAB1E9C1BADEE6D00EB0530 /* MoviesViewController.swift in Sources */,
+				9FAB1EA01BAE95CB00EB0530 /* MovieCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
