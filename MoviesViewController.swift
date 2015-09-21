@@ -18,6 +18,27 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let screenBounds = UIScreen.mainScreen().bounds
+        let screenWidth = screenBounds.size.width
+        let screenHeight = screenBounds.size.height
+
+        var label = UILabel(frame: CGRectMake(0, 0, screenWidth, 21))
+        label.center = CGPointMake(screenWidth/2, 75)
+        label.textAlignment = NSTextAlignment.Center
+        label.text = "Network Error"
+        label.backgroundColor = UIColor.blackColor()
+        label.textColor = UIColor.whiteColor()
+        label.alpha = 0
+        label.tag = 1001
+        //label.bringSubviewToFront(<#T##view: UIView##UIView#>)
+        self.view.addSubview(label)
+        self.view.bringSubviewToFront(label)
+
+        let tblView = self.tableView
+        self.tableView.frame = CGRectMake(tblView.frame.origin.x, tblView.frame.origin.y, screenWidth, screenHeight)
+
+
+
         refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: "onRefresh", forControlEvents: UIControlEvents.ValueChanged)
         tableView.insertSubview(refreshControl, atIndex: 0)
@@ -28,6 +49,23 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         // Do any additional setup after loading the view.
     }
     
+    //MARK: - Refresh
+    func delay(delay:Double, closure:()->()) {
+        dispatch_after(
+            dispatch_time(
+                DISPATCH_TIME_NOW,
+                Int64(delay * Double(NSEC_PER_SEC))
+            ),
+            dispatch_get_main_queue(), closure)
+    }
+
+    func onRefresh() {
+        fetchData("https://gist.githubusercontent.com/timothy1ee/d1778ca5b944ed974db0/raw/489d812c7ceeec0ac15ab77bf7c47849f2d1eb2b/gistfile1.json")
+        delay(2, closure: {
+            self.refreshControl.endRefreshing()
+        })
+    }
+
     func fetchData(urlString: String) -> Void {
         JTProgressHUD.show()
         let session = NSURLSession.sharedSession()
@@ -36,28 +74,41 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
             (data, response, error) -> Void in
             JTProgressHUD.hide()
             if error != nil {
+                JTProgressHUD.hide()
+                print("error in request")
+                self.view.viewWithTag(1001)?.alpha = 0.75
+                self.delay(10, closure: {
+                    self.view.viewWithTag(1001)?.alpha = 0
+                })
                 print(error!.localizedDescription)
             }
             else {
                 //let error: NSError?
                 do {
+                    self.refreshControl.endRefreshing()
+                    self.view.viewWithTag(1001)?.hidden = true
                     let jsonData = try NSJSONSerialization.JSONObjectWithData(data!, options: .MutableContainers) as! NSDictionary
                     //print(jsonData)
                     self.movies = jsonData["movies"] as! [NSDictionary]
                     
                     print(self.movies)
                     self.tableView.reloadData()
+                    JTProgressHUD.hide()
                     // Do Stuff
                     
                 } catch {
                     // handle error
+                    JTProgressHUD.hide()
                 }
             }
+            JTProgressHUD.hide()
+            self.tableView.reloadData()
             self.tableView.dataSource = self
             self.tableView.delegate = self
         }
-        
+        self.tableView.reloadData()
         task.resume()
+        JTProgressHUD.hide()
     }
     
     override func didReceiveMemoryWarning() {
@@ -87,6 +138,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         let url = NSURL(string: movie.valueForKeyPath("posters.thumbnail") as! String)!
 
         cell.posterView.setImageWithURL(url)
+        //cell.contentView.width
 
         return cell
     }
@@ -111,21 +163,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         print("about to segue")
     }
 
-    //MARK: - Refresh
-    func delay(delay:Double, closure:()->()) {
-        dispatch_after(
-            dispatch_time(
-                DISPATCH_TIME_NOW,
-                Int64(delay * Double(NSEC_PER_SEC))
-            ),
-            dispatch_get_main_queue(), closure)
-    }
 
-    func onRefresh() {
-        delay(2, closure: {
-            self.refreshControl.endRefreshing()
-        })
-    }
 
     
     
