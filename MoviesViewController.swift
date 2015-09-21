@@ -92,7 +92,9 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
                     self.movies = jsonData["movies"] as! [NSDictionary]
                     
                     print(self.movies)
-                    self.tableView.reloadData()
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.tableView.reloadData()
+                    }
                     JTProgressHUD.hide()
                     // Do Stuff
                     
